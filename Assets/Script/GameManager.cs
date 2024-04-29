@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -52,6 +53,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if(_Players[0].GetComponent<CharacterController>().GetCharacterDead() &&
+            _Players[1].GetComponent<CharacterController>().GetCharacterDead() &&
+            _Players[2].GetComponent<CharacterController>().GetCharacterDead() &&
+            _Players[3].GetComponent<CharacterController>().GetCharacterDead())
+        {
+            SceneManager.LoadScene("GameOverScene");
+        }
+
         if (_list_Monsters.Count < MonsterCount)
         {
             if (spwanTime < delayTime)

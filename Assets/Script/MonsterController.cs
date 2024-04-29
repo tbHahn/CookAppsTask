@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum PatrolMode
+{
+    moveLeft,
+    moveRight,
+    moveUp,
+    moveDown,
+    Standing
+}
+
 public class MonsterController : CharacterManager
 {
     [SerializeField] int targetRange; //적 감지 범위
@@ -21,7 +30,7 @@ public class MonsterController : CharacterManager
     float attackDelayTime;
     float spwanDelayTime;
 
-    int patrolRand;
+    PatrolMode patrolMode;
     float patrolDelay = 5;
 
     float chaseRange = 10;
@@ -43,6 +52,8 @@ public class MonsterController : CharacterManager
     void Start()
     {
         NowHp = MaxHp;
+        var randPatrol = System.Enum.GetValues(typeof(PatrolMode));
+        patrolMode = (PatrolMode)randPatrol.GetValue(Random.Range(0, randPatrol.Length));
         FoundEnemy();
         if(!isPatrol)
             targetDir = Target.transform.position - transform.parent.position;
@@ -73,14 +84,53 @@ public class MonsterController : CharacterManager
         {
             if(patrolDelay > 3)
             {
-                patrolRand = Random.Range(1, 3);
+                Debug.Log("PatrolMode");
+                anim.SetBool("FindEnemy", true);
                 patrolDelay = 0;
+
+                if (patrolMode == PatrolMode.Standing)
+                    patrolMode = PatrolMode.moveLeft;
+                else if (patrolMode == PatrolMode.moveLeft)
+                    patrolMode = PatrolMode.moveDown;
+                else if (patrolMode == PatrolMode.moveDown)
+                    patrolMode = PatrolMode.moveRight;
+                else if (patrolMode == PatrolMode.moveRight)
+                    patrolMode = PatrolMode.moveUp;
+                else if (patrolMode == PatrolMode.moveUp)
+                    patrolMode = PatrolMode.Standing;
             }
 
-            if(patrolRand % 2 == 1)
-                transform.parent.Translate(Vector3.left * 1 * Time.deltaTime);
-            else
-                transform.parent.Translate(Vector3.right * 1 * Time.deltaTime);
+            switch (patrolMode)
+            {
+                case PatrolMode.moveLeft:
+                    transform.parent.Translate(Vector3.left * 1 * Time.deltaTime);
+                    transform.parent.localScale = new Vector3(-1, 1, 1);
+                    break;
+                case PatrolMode.moveRight:
+                    transform.parent.Translate(Vector3.right * 1 * Time.deltaTime);
+                    transform.parent.localScale = Vector3.one;
+                    break;
+                case PatrolMode.moveUp:
+                    transform.parent.Translate(Vector3.up * 1 * Time.deltaTime);
+                    break;
+                case PatrolMode.moveDown:
+                    transform.parent.Translate(Vector3.down * 1 * Time.deltaTime);
+                    break;
+                case PatrolMode.Standing:
+                    anim.SetBool("FindEnemy", false);
+                    break;
+            }
+
+            //if (patrolRand % 2 == 1)
+            //{
+            //    transform.parent.Translate(Vector3.left * 1 * Time.deltaTime);
+            //    transform.parent.localScale = new Vector3(-1, 1, 1);
+            //}
+            //else
+            //{
+            //    transform.parent.Translate(Vector3.right * 1 * Time.deltaTime);
+            //    transform.parent.localScale = Vector3.one;
+            //}
 
             patrolDelay += Time.deltaTime;
         }
@@ -95,18 +145,21 @@ public class MonsterController : CharacterManager
 
                 if(targetDir.sqrMagnitude > Mathf.Pow(chaseRange,2))
                 {
-                    Target = null;
-                    anim.SetBool("FindEnemy", false);
+                    isPatrol = true;
+                    //anim.SetBool("FindEnemy", false);
                     return;
                 }
 
                 transform.parent.Translate(targetDir.normalized * 1 * Time.deltaTime);
+                isPatrol = false;
 
                 anim.SetBool("FindEnemy", true);
             }
 
             if (Target != null && AttackRange >= targetDir.sqrMagnitude)
             {
+                isPatrol = false;
+                patrolDelay = 0;
                 anim.SetBool("AttackEnemy", true);
             }
         }
