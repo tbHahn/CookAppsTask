@@ -8,4 +8,9 @@ public class LevelScript : MonoBehaviour
 {
     [SerializeField] GameObject _levelBar;
     [SerializeField] RectTransform _levelGroup;
+
+    private void Update()
+    {
+        
+    }
 }
