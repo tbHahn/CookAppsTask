@@ -14,7 +14,7 @@ public class MonsterController : CharacterManager
 
     Animator anim;
 
-    bool GameOver;
+    bool isPatrol;
     bool isDelay;
     bool isDead;
     bool isReward;
@@ -22,6 +22,9 @@ public class MonsterController : CharacterManager
     float spwanDelayTime;
 
     float chaseRange = 10;
+
+    [HideInInspector] public float NowHp;
+    [HideInInspector] public int gold = 10;
 
     private void Awake()
     {
@@ -36,6 +39,7 @@ public class MonsterController : CharacterManager
     // Start is called before the first frame update
     void Start()
     {
+        NowHp = MaxHp;
         FoundEnemy();
         targetDir = Target.transform.position - transform.parent.position;
     }
@@ -54,13 +58,22 @@ public class MonsterController : CharacterManager
             return;
         }
 
-        if (GameOver)
+        
+        if (Target == null)
         {
-            anim.SetBool("AttackEnemy", false);
-            anim.SetBool("FindEnemy", false);
-        }
-        else if (Target == null)
             FoundEnemy();
+
+        }
+
+        if(isPatrol)
+        {
+            int rand = Random.Range(1, 3);
+
+            if(rand % 2 == 1)
+                transform.parent.Translate(Vector3.left * 1 * Time.deltaTime);
+            else
+                transform.parent.Translate(Vector3.right * 1 * Time.deltaTime);
+        }
 
         if (isDelay)
             attackDelayTime += Time.deltaTime;
@@ -113,7 +126,7 @@ public class MonsterController : CharacterManager
 
         if(Target == null)
         {
-            Debug.Log("GameOver");
+            isPatrol = true;
             return;
         }
 
@@ -155,9 +168,9 @@ public class MonsterController : CharacterManager
 
     public void SetDamange(float Dmg)
     {
-        MaxHp -= Dmg;
+        NowHp -= Dmg;
 
-        if (MaxHp <= 0)
+        if (NowHp <= 0)
             isDead = true;
     }
 

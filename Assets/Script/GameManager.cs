@@ -87,5 +87,6 @@ public class GameManager : MonoBehaviour
             return;
 
         _expBarScript.GetExpPoint(obj.transform.GetChild(0).gameObject);
+        _shopScript.EarnGold(monster.GetComponent<MonsterController>().gold);
     }
 }

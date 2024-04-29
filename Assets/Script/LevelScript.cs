@@ -15,7 +15,7 @@ public class LevelScript : MonoBehaviour
     private void Update()
     {
         for(int i = 0; i < _list_PlayersEXPBars.Count; i++)
-            _list_PlayersEXPBars[i].transform.position = Camera.main.WorldToScreenPoint(_list_Players[i].transform.position + new Vector3(0, 2.3f, 0));
+            _list_PlayersEXPBars[i].transform.position = Camera.main.WorldToScreenPoint(_list_Players[i].transform.position + new Vector3(0, 2.8f, 0));
         
     }
 

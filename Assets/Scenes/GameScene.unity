@@ -808,11 +808,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1039,7 +1039,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 459782377}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 502542976}
+        m_TargetAssemblyTypeName: ShopScript, Assembly-CSharp
+        m_MethodName: OnBtn_IncreaseHp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &459782377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1270,6 +1282,7 @@ MonoBehaviour:
   _tmpHpGold: {fileID: 2039573902}
   _tmpAttack: {fileID: 500954418}
   _tmpAttackGold: {fileID: 134845114}
+  totalGold: 0
 --- !u!1001 &511480457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1971,11 +1984,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2564,7 +2577,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1000435136}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 502542976}
+        m_TargetAssemblyTypeName: ShopScript, Assembly-CSharp
+        m_MethodName: OnBtn_IncreaseAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1000435136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2754,11 +2779,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3173,11 +3198,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 816238282075972358, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
       propertyPath: m_LocalPosition.x
