@@ -17,6 +17,7 @@ public class MonsterController : CharacterManager
     bool GameOver;
     bool isDelay;
     bool isDead;
+    bool isReward;
     float attackDelayTime;
     float spwanDelayTime;
 
@@ -44,6 +45,11 @@ public class MonsterController : CharacterManager
     {
         if (isDead)
         {
+            if(!isReward)
+            {
+                GameManager.GetInstance.Reward(this.gameObject);
+                isReward = true;
+            }
             anim.SetBool("isDead", true);
             return;
         }

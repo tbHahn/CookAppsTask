@@ -65,4 +65,13 @@ public class HpBarScript : MonoBehaviour
 
         Destroy(deleteItem.gameObject);
     }
+
+    public void MaxHpIncrease()
+    {
+        for(int i = 0; i < _list_Players.Count; i++)
+        {
+            _HpBars[i].maxValue = _list_Players[i].GetComponent<CharacterController>().MaxHp;
+            
+        }
+    }
 }

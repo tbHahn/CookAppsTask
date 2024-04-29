@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform _MonsterGroup;
     [SerializeField] int MonsterCount;
     [SerializeField] HpBarScript _hpBarScript;
-
+    [SerializeField] LevelScript _expBarScript;
+    [SerializeField] ShopScript _shopScript;
 
     [HideInInspector] public bool SpwanCall;
     [HideInInspector] public List<GameObject> _list_Monsters = new List<GameObject>();
@@ -75,4 +76,16 @@ public class GameManager : MonoBehaviour
     }
 
     public HpBarScript GetHpInfo() => _hpBarScript;
+
+    public LevelScript GetLevelInfo() => _expBarScript;
+
+    public void Reward(GameObject monster)
+    {
+        GameObject obj = _list_Monsters.Find(x => x.transform.GetChild(0).gameObject == monster);
+
+        if (obj == null)
+            return;
+
+        _expBarScript.GetExpPoint(obj.transform.GetChild(0).gameObject);
+    }
 }

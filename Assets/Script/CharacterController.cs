@@ -40,18 +40,20 @@ public class CharacterController : CharacterManager
     Animator anim;
 
     [HideInInspector] public float NowHp;
+    [HideInInspector] public int level = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
 
+        GameManager.GetInstance.GetLevelInfo().AddLevelBar(gameObject);
+
         NowHp = MaxHp;
 
         if(_job == Job.Priest)
-        {
             _list_PriestTarget = GameManager.GetInstance._Players.ToList();
-        }
+        
 
         //targetRange = 5;
     }
