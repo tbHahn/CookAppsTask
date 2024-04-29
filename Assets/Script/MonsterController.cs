@@ -21,6 +21,9 @@ public class MonsterController : CharacterManager
     float attackDelayTime;
     float spwanDelayTime;
 
+    int patrolRand;
+    float patrolDelay = 5;
+
     float chaseRange = 10;
 
     [HideInInspector] public float NowHp;
@@ -41,7 +44,8 @@ public class MonsterController : CharacterManager
     {
         NowHp = MaxHp;
         FoundEnemy();
-        targetDir = Target.transform.position - transform.parent.position;
+        if(!isPatrol)
+            targetDir = Target.transform.position - transform.parent.position;
     }
 
     // Update is called once per frame
@@ -67,12 +71,18 @@ public class MonsterController : CharacterManager
 
         if(isPatrol)
         {
-            int rand = Random.Range(1, 3);
+            if(patrolDelay > 3)
+            {
+                patrolRand = Random.Range(1, 3);
+                patrolDelay = 0;
+            }
 
-            if(rand % 2 == 1)
+            if(patrolRand % 2 == 1)
                 transform.parent.Translate(Vector3.left * 1 * Time.deltaTime);
             else
                 transform.parent.Translate(Vector3.right * 1 * Time.deltaTime);
+
+            patrolDelay += Time.deltaTime;
         }
 
         if (isDelay)
@@ -131,6 +141,7 @@ public class MonsterController : CharacterManager
         }
 
         targetDir = Target.transform.position - transform.parent.position;
+        isPatrol = false;
 
         //if (Target.transform.position.x > transform.parent.position.x)
         //    transform.parent.localScale = new Vector3(transform.parent.localScale.x * -1, 1, 1);
