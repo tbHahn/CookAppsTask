@@ -1,12 +1,12 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
-    public float RespawnDelay = 5;  //Àç»ı¼ºÁÖ±â
-    public float MaxHp;             //ÃÖ´ëÃ¼·Â
-    public float AttackDamage;      //°ø°İ·Â
-    public float AttackRange;       //°ø°İ°¡´É °Å¸®
-    public float AttackDelay;       //°ø°İ´ë±â½Ã°£
+    public float RespawnDelay = 5;  //ì¬ìƒì„±ì£¼ê¸°
+    public float MaxHp;             //ìµœëŒ€ì²´ë ¥
+    public float AttackDamage;      //ê³µê²©ë ¥
+    public float AttackRange;       //ê³µê²©ê°€ëŠ¥ ê±°ë¦¬
+    public float AttackDelay;       //ê³µê²©ëŒ€ê¸°ì‹œê°„
 }

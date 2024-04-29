@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>직업을 정하는 Enum</summary>
 public enum Job
 {
     Knight,
@@ -14,48 +15,48 @@ public enum Job
 
 public class CharacterController : CharacterManager
 {
-    [SerializeField] float SkillRange;
-    [SerializeField] float SkillDelay;
-    [SerializeField] Job _job;
-    [SerializeField] float targetRange;
+    #region Values
 
-    [HideInInspector] public GameObject Target = null;
+    [SerializeField] float SkillRange;      //스킬 사거리
+    [SerializeField] float SkillDelay;      //스킬 재사용 시간
+    [SerializeField] Job _job;              //직업
+    [SerializeField] float targetRange;     //추적 사거리(플레이어의 경우 추적 사거리를 자유롭게 변경 가능)
 
-    List<GameObject> _list_Enemy = new List<GameObject>();
+    [HideInInspector] public GameObject Target = null;                  //적 오브젝트
 
-    List<GameObject> _list_ThiefTarget = new List<GameObject>();
-    List<GameObject> _list_PriestTarget = new List<GameObject>();
+    List<GameObject> _list_Enemy = new List<GameObject>();              //적들의 정보를 담아두는 리스트
+    List<GameObject> _list_ThiefTarget = new List<GameObject>();        //도적의 스킬을 위한 리스트
+    List<GameObject> _list_PriestTarget = new List<GameObject>();       //성직자의 스킬을 위한 리스트
 
-    bool isDead;        //ĳ���� �������
-    bool isDelay;
+    bool isDead;                    //캐릭터 사망정보를 확인하는 bool
+    bool isDelay;                   //공격의 딜레이를 확인하는 bool
+    bool isSkillOn;                 //스킬을 사용할 차례인지 확인하는 bool
 
-    bool isSkillOn;
-
-    float RespawnTime;
-    float attackDelayTime;
+    float RespawnTime;              //부활 대기시간
+    float attackDelayTime;          //공격 대기시간
     
-    float shortDistance;
-    Vector3 targetDir;
+    float shortDistance;            //적과의 가까운 거리
+    Vector3 targetDir;              //타겟의 방향
 
     Animator anim;
 
-    [HideInInspector] public float NowHp;
+    [HideInInspector] public float NowHp;       
     [HideInInspector] public int level = 1;
+
+    #endregion
+
+    #region MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
-
-        GameManager.GetInstance.GetLevelInfo().AddLevelBar(gameObject);
+        GameManager.GetInstance.GetLevelInfo().AddLevelBar(gameObject);     //경험치바 추가
 
         NowHp = MaxHp;
-
+        //성직자 스킬을 위한 리스트 생성
         if(_job == Job.Priest)
             _list_PriestTarget = GameManager.GetInstance._Players.ToList();
-        
-
-        //targetRange = 5;
     }
 
     // Update is called once per frame
@@ -66,6 +67,7 @@ public class CharacterController : CharacterManager
             anim.SetBool("isDead", true);
             RespawnTime += Time.deltaTime;
 
+            //부활 대기시간 지날시 부활
             if (RespawnTime >= RespawnDelay)
             {
                 isDead = false;
@@ -81,7 +83,22 @@ public class CharacterController : CharacterManager
             FindTarget();
 
         if (isDelay)
+        {
             attackDelayTime += Time.deltaTime;
+
+            if (isSkillOn)
+            {
+                //스킬 사용전 공격 대기시간 만큼 대기
+                if (attackDelayTime >= AttackDelay)
+                    isDelay = false;
+            }
+            else
+            {
+                //스킬 사용후 스킬 대기시간 만큼 대기
+                if (attackDelayTime >= SkillDelay)
+                    isDelay = false;
+            }
+        }
         else if (!isDelay)
         {
             if (Target != null && targetDir.sqrMagnitude > AttackRange)
@@ -97,21 +114,18 @@ public class CharacterController : CharacterManager
                 anim.SetBool("isAttack", true);
             }
         }
-
-        if (isSkillOn)
-        {
-            if (attackDelayTime >= SkillDelay)
-                isDelay = false;
-        }
-        else
-        {
-            if (attackDelayTime >= AttackDelay)
-                isDelay = false;
-        }
     }
+
+    #endregion
+
+    #region Method
+
+    #region Public Method
 
     public bool GetCharacterDead() => isDead;
 
+    /// <summary>공격 받는 함수(성직자의 스킬의 경우 아군 체력 채우는 용도)</summary>
+    /// <param name="Dmg"></param>
     public void SetDamange(float Dmg)
     {
         NowHp -= Dmg;
@@ -122,7 +136,11 @@ public class CharacterController : CharacterManager
             NowHp = MaxHp;
     }
 
-    void FindTarget()
+    #endregion
+
+    #region Private Method
+
+    private void FindTarget()
     {
         if (GameManager.GetInstance._list_Monsters.Count <= 0)
             return;
@@ -155,10 +173,11 @@ public class CharacterController : CharacterManager
     }
 
 
-    public void AttackEnemy()
+    private void AttackEnemy()
     {
         if(isSkillOn)
         {
+            //각 직업에 맞게 스킬 사용
             switch(_job)
             {
                 case Job.Knight:
@@ -179,17 +198,18 @@ public class CharacterController : CharacterManager
                     anim.SetBool("isSkill", true);
                     break;
             }
-
+            //스킬 사용후 일반공격을 하기위해 bool변경
             isSkillOn = false;
         }
         else
         {
+            //일반 공격후 스킬 사용 가능하게 대기
             Target.GetComponent<MonsterController>().SetDamange(AttackDamage);
             isSkillOn = true;
         }
     }
 
-    public void AttackEnd()
+    private void AttackEnd()
     {
         isDelay = true;
         attackDelayTime = 0;
@@ -199,7 +219,7 @@ public class CharacterController : CharacterManager
             anim.SetBool("isSkill", false);
         anim.StopPlayback();
 
-        if (Target.GetComponent<MonsterController>().GetCharacterDead())
+        if (Target != null && Target.GetComponent<MonsterController>().GetCharacterDead())
         {
             Target = null;
             anim.SetBool("isAttack", false);
@@ -209,7 +229,7 @@ public class CharacterController : CharacterManager
     }
 
 
-    void ThiefSkillTarget()
+    private void ThiefSkillTarget()
     {
         foreach (GameObject targetObj in _list_Enemy)
         {
@@ -220,7 +240,7 @@ public class CharacterController : CharacterManager
         }
     }
 
-    void PriestSkillTarget()
+    private void PriestSkillTarget()
     {
         GameObject temp = _list_PriestTarget[3];
 
@@ -233,4 +253,8 @@ public class CharacterController : CharacterManager
 
         temp.GetComponent<CharacterController>().SetDamange(AttackDamage * 2.5f * -1);
     }
+
+    #endregion
+
+    #endregion
 }

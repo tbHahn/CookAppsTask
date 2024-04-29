@@ -3641,7 +3641,6 @@ MonoBehaviour:
   _hpBarScript: {fileID: 41385960}
   _expBarScript: {fileID: 1728331198}
   _shopScript: {fileID: 502542976}
-  SpwanCall: 0
   _list_Monsters: []
   _Players:
   - {fileID: 174727279}
@@ -4674,8 +4673,6 @@ GameObject:
   - component: {fileID: 2146871399}
   - component: {fileID: 2146871398}
   - component: {fileID: 2146871397}
-  - component: {fileID: 2146871401}
-  - component: {fileID: 2146871402}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4768,39 +4765,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &2146871401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2146871396}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f47d603ea8d3f604a8f5d403d3a93e57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _HpBars:
-  - {fileID: 689836389}
-  - {fileID: 525404919}
-  - {fileID: 1000657932}
-  - {fileID: 658123748}
-  _MonsterBar: {fileID: 829750021949734933, guid: 30ccc01312e2f5649bf0ea1bf84723d5, type: 3}
-  _HpBarGroup: {fileID: 41385959}
---- !u!114 &2146871402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2146871396}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f307ac951a904ea489ec1f6b937b77ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _expBar: {fileID: 7521356205602193805, guid: 7e1566d2d0b73d5498c192d623279b8c, type: 3}
-  _levelGroup: {fileID: 1728331197}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

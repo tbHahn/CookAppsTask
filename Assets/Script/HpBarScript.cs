@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,21 +12,24 @@ using TMPro;
 
 public class HpBarScript : MonoBehaviour
 {
-    [SerializeField] Slider[] _HpBars;
+    #region Values
 
-    [SerializeField] Slider _MonsterBar;
+    [SerializeField] Slider[] _HpBars;                              //캐릭터들의 Hp바배열
+    [SerializeField] Slider _MonsterBar;                            //몬스터들에게 붙이는 Hp바
+    [SerializeField] RectTransform _HpBarGroup;                     //Hp바들을 모을 RectTransform
 
-    [SerializeField] RectTransform _HpBarGroup;
+    List<GameObject> _list_Players = new List<GameObject>();        //플레이어 캐릭터들을 받을 리스트
+    List<GameObject> _list_Monsters = new List<GameObject>();       //몬스터들을 관리할 리스트
+    List<Slider> _list_MonsterHPBars = new List<Slider>();          //몬스터들의 Hp바를 관리할 리스트
+    #endregion
 
-    List<GameObject> _list_Players = new List<GameObject>();
-
-    List<GameObject> _list_Monsters = new List<GameObject>();
-    List<Slider> _list_MonsterHPBars = new List<Slider>();
-
+    #region MonoBehaviour
     private void Awake()
     {
+        //플레이어리스트 받아오기
         _list_Players = GameManager.GetInstance._Players.ToList();
 
+        //플레이어Hp설정
         for (int i = 0; i < _list_Players.Count; i++)
         {
             _HpBars[i].maxValue = _list_Players[i].GetComponent<CharacterController>().MaxHp;
@@ -34,9 +37,10 @@ public class HpBarScript : MonoBehaviour
             _HpBars[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = _HpBars[i].maxValue.ToString();
         }
     }
-
     private void Update()
     {
+        //플레이어와 몬스터들의 Hp바가 각각 알맞은 위치로 추적하도록 설정
+
         for(int i = 0; i < _list_Players.Count; i++)
         {
             _HpBars[i].transform.position = Camera.main.WorldToScreenPoint(_list_Players[i].transform.position + new Vector3(0, 2.2f, 0));
@@ -53,7 +57,12 @@ public class HpBarScript : MonoBehaviour
 
     }
 
+    #endregion
 
+    #region Method
+
+    /// <summary>몬스터 생성시 Hp바 추가</summary>
+    /// <param name="monster">추가된 몬스터</param>
     public void AddMonsterHPBar(GameObject monster)
     {
         Slider hpSlider = Instantiate(_MonsterBar, _HpBarGroup);
@@ -66,6 +75,8 @@ public class HpBarScript : MonoBehaviour
         _list_MonsterHPBars.Add(hpSlider);
     }
 
+    /// <summary>몬스터 사망시 Hp바 제거</summary>
+    /// <param name="monster">사망한 몬스터</param>
     public void DeadMonster(GameObject monster)
     {
         int idx = _list_Monsters.FindIndex(x => x.transform.GetChild(0).gameObject == monster);
@@ -76,6 +87,7 @@ public class HpBarScript : MonoBehaviour
         Destroy(deleteItem.gameObject);
     }
 
+    /// <summary>캐릭터 최대 체력 증가</summary>
     public void MaxHpIncrease()
     {
         for(int i = 0; i < _list_Players.Count; i++)
@@ -83,6 +95,6 @@ public class HpBarScript : MonoBehaviour
             _HpBars[i].maxValue = _list_Players[i].GetComponent<CharacterController>().MaxHp;
             _HpBars[i].transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = _HpBars[i].maxValue.ToString();
         }
-
     }
+    #endregion
 }
