@@ -1,0 +1,4 @@
+repository "Persnal@local"
+  path "/"
+    br "/main"
+    co "/main"
