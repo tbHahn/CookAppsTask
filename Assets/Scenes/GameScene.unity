@@ -4003,7 +4003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MonsterPrefab: {fileID: 7988545859562375077, guid: 23b0558f8d2fc7440a182c81ecd38d3c, type: 3}
   _MonsterGroup: {fileID: 234112951}
-  MaxMonsterCount: 5
+  MaxMonsterCount: 1
   _hpBarScript: {fileID: 41385960}
   _expBarScript: {fileID: 1728331198}
   _shopScript: {fileID: 502542976}

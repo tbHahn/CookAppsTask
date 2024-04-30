@@ -76,6 +76,7 @@ public class CharacterController : CharacterManager
             //부활 대기시간 지날시 부활
             if (RespawnTime >= RespawnDelay)
             {
+                Target = null;
                 isDead = false;
                 anim.SetBool("isDead", false);
                 RespawnTime = 0;
@@ -84,6 +85,7 @@ public class CharacterController : CharacterManager
                 isSkillOn = false;
                 NowHp = MaxHp;
             }
+            return;
         }
         else if (Target == null)
             FindTarget();
@@ -94,14 +96,14 @@ public class CharacterController : CharacterManager
 
             if (isSkillOn)
             {
-                //스킬 사용전 공격 대기시간 만큼 대기
-                if (attackDelayTime >= AttackDelay)
+                //스킬 사용전 스킬 대기시간 만큼 대기
+                if (attackDelayTime >= SkillDelay)
                     isDelay = false;
             }
             else
             {
-                //스킬 사용후 스킬 대기시간 만큼 대기
-                if (attackDelayTime >= SkillDelay)
+                //스킬 사용후 공격 대기시간 만큼 대기
+                if (attackDelayTime >= AttackDelay)
                     isDelay = false;
             }
         }
@@ -263,8 +265,14 @@ public class CharacterController : CharacterManager
 
         for(int i = 2; i >= 0; i--)
         {
-            if(_list_PriestTarget[i].GetComponent<CharacterController>().isDead == false && 
-                temp.GetComponent<CharacterController>().NowHp > _list_PriestTarget[i].GetComponent<CharacterController>().NowHp)
+            float findDistance = Vector3.Distance(transform.position, _list_PriestTarget[i].transform.position);
+
+            if (findDistance > SkillRange)
+                continue;
+
+            if (_list_PriestTarget[i].GetComponent<CharacterController>().isDead == false &&
+                (temp.GetComponent<CharacterController>().MaxHp - temp.GetComponent<CharacterController>().NowHp) < 
+                (_list_PriestTarget[i].GetComponent<CharacterController>().MaxHp - _list_PriestTarget[i].GetComponent<CharacterController>().NowHp))
                 temp = _list_PriestTarget[i];
         }
 
