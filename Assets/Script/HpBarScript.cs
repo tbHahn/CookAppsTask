@@ -50,7 +50,11 @@ public class HpBarScript : MonoBehaviour
 
         for(int j = 0; j < _list_Monsters.Count; j++)
         {
-            _list_MonsterHPBars[j].transform.position = Camera.main.WorldToScreenPoint(_list_Monsters[j].transform.position + new Vector3(0, 1.4f, 0));
+            if(_list_Monsters[j].transform.GetChild(0).GetComponent<MonsterController>().GetBossStatus)
+                _list_MonsterHPBars[j].transform.position = Camera.main.WorldToScreenPoint(_list_Monsters[j].transform.position + new Vector3(0, 1.8f, 0));
+            else
+                _list_MonsterHPBars[j].transform.position = Camera.main.WorldToScreenPoint(_list_Monsters[j].transform.position + new Vector3(0, 1.4f, 0));
+
             _list_MonsterHPBars[j].value = _list_Monsters[j].transform.GetChild(0).GetComponent<MonsterController>().NowHp;
             _list_MonsterHPBars[j].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = _list_MonsterHPBars[j].value.ToString();
         }
@@ -69,7 +73,7 @@ public class HpBarScript : MonoBehaviour
 
         hpSlider.maxValue = monster.GetComponent<MonsterController>().MaxHp;
         hpSlider.value = hpSlider.maxValue;
-        hpSlider.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = hpSlider.maxValue.ToString();
+        hpSlider.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = hpSlider.maxValue.ToString();
 
         _list_Monsters.Add(monster.transform.parent.gameObject);
         _list_MonsterHPBars.Add(hpSlider);

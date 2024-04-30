@@ -30,7 +30,7 @@ public class MonsterController : CharacterManager
     bool isDelay;                       //공격의 딜레이를 확인하는 bool
     bool isDead;                        //사망여부를 확인하는 bool
     bool isReward;                      //보상을 주었는지를 확인하는 bool
-
+    bool isBoss;
 
     float attackDelayTime;              //공격 대기 시간
     float patrolDelay = 5;              //정찰 대기 시간(초기값은 임의설정)
@@ -51,14 +51,15 @@ public class MonsterController : CharacterManager
 
         shortDistance = 15f;
         anim = GetComponent<Animator>();
-
-        //몬스터 체력바 설정
-        GameManager.GetInstance.GetHpInfo().AddMonsterHPBar(this.gameObject);
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        //몬스터 기초설정
+        StatusSetting();
+        //몬스터 체력바 설정
+        GameManager.GetInstance.GetHpInfo().AddMonsterHPBar(this.gameObject);
         NowHp = MaxHp;
         //정찰할경우의 정찰모드 설정
         var randPatrol = System.Enum.GetValues(typeof(PatrolMode));
@@ -156,9 +157,36 @@ public class MonsterController : CharacterManager
         anim.StopPlayback();
     }
 
+    public void SettingBoss()
+    {
+        MaxHp *= 3;
+        AttackDamage *= 3;
+        AttackRange *= 3;
+        AttackDelay *= 3;
+        gold *= 3;
+        exp *= 3;
+        isBoss = true;
+    }
+
+    public bool GetBossStatus => isBoss;
+
     #endregion
 
     #region Private Method
+
+    /// <summary>스테이지별 몬스터 세팅</summary>
+    private void StatusSetting()
+    {
+        int stage = GameManager.GetInstance.GetStageInfo().GetStage();
+
+        if(stage > 1)
+        {
+            AttackDamage += (AttackDamage * (0.1f * stage));
+            MaxHp += (MaxHp * (0.1f * stage));
+        }
+    }
+
+
     /// <summary>적을 찾는 함수</summary>
     private void FoundEnemy()
     {
@@ -189,11 +217,20 @@ public class MonsterController : CharacterManager
         isPatrol = false;//정찰종료
 
         //타겟의 위치에 따라 스프라이트 반전
-        if (targetDir.x < 0)
-            transform.parent.localScale = new Vector3(-1, 1, 1);
-        else if (targetDir.x >= 0)
-            transform.parent.localScale = Vector3.one;
-
+        if (isBoss)
+        {
+            if (targetDir.x < 0)
+                transform.parent.localScale = new Vector3(-1.5f , transform.parent.localScale.y, transform.parent.localScale.z);
+            else if (targetDir.x >= 0)
+                transform.parent.localScale = Vector3.one * 1.5f;
+        }
+        else
+        {
+            if (targetDir.x < 0)
+                transform.parent.localScale = new Vector3(-1, 1, 1);
+            else if (targetDir.x >= 0)
+                transform.parent.localScale = Vector3.one;
+        }
 
         Debug.Log(Target.name);
     }

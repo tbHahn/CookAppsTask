@@ -62,6 +62,12 @@ public class CharacterController : CharacterManager
     // Update is called once per frame
     void Update()
     {
+        if(GameManager.GetInstance.GetStageClear())
+        {
+            anim.SetBool("isClear", true);
+            return;
+        }
+
         if (isDead)
         {
             anim.SetBool("isDead", true);
@@ -134,6 +140,17 @@ public class CharacterController : CharacterManager
             isDead = true;
         else if (NowHp >= MaxHp)
             NowHp = MaxHp;
+    }
+
+    /// <summary>다음 스테이지 넘어갈시 초기화</summary>
+    public void NextStage()
+    {
+        anim.SetBool("isClear", false);
+        anim.StopPlayback();
+        RespawnTime = 0;
+        attackDelayTime = 0;
+        isDelay = false;
+        isSkillOn = false;
     }
 
     #endregion
