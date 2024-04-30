@@ -277,6 +277,7 @@ public class CharacterController : CharacterManager
         }
 
         temp.GetComponent<CharacterController>().SetDamange(AttackDamage * 2.5f * -1);
+        temp.transform.GetChild(1).gameObject.SetActive(true);
     }
 
     #endregion
