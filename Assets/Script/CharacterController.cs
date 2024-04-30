@@ -202,16 +202,23 @@ public class CharacterController : CharacterManager
                 case Job.Knight:
                     Target.GetComponent<MonsterController>().SetDamange(AttackDamage);
                     if (!Target.GetComponent<MonsterController>().GetCharacterDead())
+                    {
                         Target.GetComponent<MonsterController>().SetStun();
+                        Target.transform.parent.GetChild(1).gameObject.SetActive(true);
+                    }
                     break;
                 case Job.Theif:
                     ThiefSkillTarget();
                     for(int i = 0; i < _list_ThiefTarget.Count; i++)
+                    {
                         _list_ThiefTarget[i].GetComponent<MonsterController>().SetDamange(AttackDamage);
+                        _list_ThiefTarget[i].transform.parent.GetChild(2).gameObject.SetActive(true);
+                    }
                     _list_ThiefTarget.Clear();
                     break;
                 case Job.Archer:
                     Target.GetComponent<MonsterController>().SetDamange(AttackDamage * 2.5f);
+                    Target.transform.parent.GetChild(3).gameObject.SetActive(true);
                     break;
                 case Job.Priest:
                     anim.SetBool("isSkill", true);
