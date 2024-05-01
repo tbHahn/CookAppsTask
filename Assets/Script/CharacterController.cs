@@ -119,7 +119,7 @@ public class CharacterController : CharacterManager
 
             if (Target != null && AttackRange >= targetDir.sqrMagnitude)
             {
-                anim.SetBool("isAttack", true);
+                    anim.SetBool("isAttack", true);
             }
         }
     }
