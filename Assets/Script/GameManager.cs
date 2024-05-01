@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60; //60프레임 고정
+
         MonsterSpwan();
         
         delayTime = _list_Monsters[0].transform.GetChild(0).GetComponent<MonsterController>().RespawnDelay;//초기 재생성 대기 시간 설정
