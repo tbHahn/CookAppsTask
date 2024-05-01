@@ -79,13 +79,13 @@ public class ShopScript : MonoBehaviour
             return;
 
         foreach(GameObject character in GameManager.GetInstance._Players)
-            character.GetComponent<CharacterController>().MaxHp += defaultHp;
+            character.GetComponent<CharacterController>().MaxHp += HpIncreseFigure;
 
         GameManager.GetInstance.GetHpInfo().MaxHpIncrease();
 
         totalGold -= defaultHpGold;
         defaultHpGold += HpIncreseGold;
-        defaultHp += HpIncreseFigure;
+        //defaultHp += HpIncreseFigure;
         SetHpText();
     }
 
@@ -96,11 +96,11 @@ public class ShopScript : MonoBehaviour
             return;
 
         foreach (GameObject character in GameManager.GetInstance._Players)
-            character.GetComponent<CharacterController>().AttackDamage += defaultAttack;
+            character.GetComponent<CharacterController>().AttackDamage += AttackIncreseFigure;
 
         totalGold -= defaultAttackGold;
         defaultAttackGold += AttackIncreseGold;
-        defaultAttack += AttackIncreseFigure;
+        //defaultAttack += AttackIncreseFigure;
         SetATKText();
     }
 

@@ -52,7 +52,7 @@ public class LevelScript : MonoBehaviour
         {
             if(_list_Players[i].GetComponent<CharacterController>().Target == monster)
             {
-                _list_PlayersEXPBars[i].value += monster.GetComponent<MonsterController>().exp;
+                _list_PlayersEXPBars[i].value += monster.GetComponent<MonsterController>().GetExp();
                 if (_list_PlayersEXPBars[i].value >= _expBar.maxValue)
                     LevelUp(_list_Players[i], i);
             }

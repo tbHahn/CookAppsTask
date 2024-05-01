@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
             return;
 
         _expBarScript.GetExpPoint(obj.transform.GetChild(0).gameObject);        //경험치
-        _shopScript.EarnGold(monster.GetComponent<MonsterController>().gold);   //골드
+        _shopScript.EarnGold(monster.GetComponent<MonsterController>().GetGold());   //골드
 
         deathMonsterCount++;
     }

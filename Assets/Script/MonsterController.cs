@@ -17,6 +17,9 @@ public class MonsterController : CharacterManager
     #region Values
 
     [SerializeField] int targetRange;   //적 감지 범위
+    [SerializeField] int gold = 10;     //골드 보상
+    [SerializeField] int exp = 10;      //경험치 보상
+
 
     List<GameObject> PlayerCharacters;  //플레이어의 캐릭터를 찾기 위한 리스트
     float shortDistance;                //가까운 적을 찾기위한 최소거리
@@ -37,8 +40,7 @@ public class MonsterController : CharacterManager
     float chaseRange = 10;              //추적 사거리
 
     [HideInInspector] public float NowHp;       //현재체력
-    [HideInInspector] public int gold = 10;     //골드 보상
-    [HideInInspector] public int exp = 10;      //경험치 보상
+    
 
     #endregion
 
@@ -136,6 +138,10 @@ public class MonsterController : CharacterManager
     #region Public Method
     /// <summary>사망했는지 확인하는 함수</summary>
     public bool GetCharacterDead() => isDead;
+
+    public int GetGold() => gold;
+
+    public int GetExp() => exp;
 
     /// <summary>피해받을때</summary>
     /// <param name="Dmg">받는 데미지</param>
