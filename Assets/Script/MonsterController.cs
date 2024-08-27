@@ -189,6 +189,8 @@ public class MonsterController : CharacterManager
         {
             AttackDamage += (AttackDamage * (0.1f * stage));
             MaxHp += (MaxHp * (0.1f * stage));
+            gold += stage;
+            exp += stage;
         }
     }
 

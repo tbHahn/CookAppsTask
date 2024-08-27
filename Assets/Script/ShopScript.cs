@@ -85,7 +85,6 @@ public class ShopScript : MonoBehaviour
 
         totalGold -= defaultHpGold;
         defaultHpGold += HpIncreseGold;
-        //defaultHp += HpIncreseFigure;
         SetHpText();
     }
 
